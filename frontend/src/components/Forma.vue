@@ -15,8 +15,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
-
     export default {
         name: 'MyForma',
         data () {
@@ -37,11 +35,13 @@
                     email: this.email,
                     text: this.text
                 })
-                if (ans) {
+                if (ans === true) {
                     this.name = ''
                     this.text = ''
                     this.email = ''
                     this.success = true
+                } else {
+                    this.errors.push(ans)
                 }
             } 
         }

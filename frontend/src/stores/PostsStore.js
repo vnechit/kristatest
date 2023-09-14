@@ -70,10 +70,11 @@ export const usePostsStore = defineStore ('postsStore', {
                             email: data.email,
                             text: data.text
                         })
+                        return true
                     }
                 })
                 .catch(e => {
-                    this.errors.push(e)
+                    return e
                 })
         }
     }
