@@ -7,14 +7,14 @@
             <input type="text" class="email" v-model="email" placeholder="Введите email">
             <button class="btn-send" @click="send" type="submit">Отправить</button>
         </form>
-        <ul>
-            <li class="errors" v-for="error of errors" :key="error">{{ error.message }}</li>
-        </ul>
         <p class="success-sending" v-show="success">Запись была успешно добавлена</p>
     </div>
 </template>
 
 <script>
+    import { usePostsStore } from './../stores/PostsStore'
+    import { mapStores } from 'pinia';
+
     export default {
         name: 'MyForma',
         data () {
@@ -22,15 +22,13 @@
             name: '',
             text: '',
             email: '',
-            errors: [],
             success: false,
-            postsStore: usePostsStore()
         }
         },
         methods: {
             async send (event) {
                 event.preventDefault();
-                const ans = this.postsStore.send({
+                const ans = await this.postsStoreStore.send({
                     name: this.name,
                     email: this.email,
                     text: this.text
@@ -40,16 +38,13 @@
                     this.text = ''
                     this.email = ''
                     this.success = true
-                } else {
-                    this.errors.push(ans)
                 }
             } 
+        },
+        computed: {
+            ...mapStores(usePostsStore)
         }
     }
-</script>
-
-<script setup>
-    import { usePostsStore } from './../stores/PostsStore'
 </script>
 
 <style scoped>

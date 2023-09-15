@@ -1,26 +1,30 @@
 <template>
   <app-form></app-form>
-  <app-table :posts="postsStore.posts"></app-table>
+  <app-table :posts="postsStoreStore.posts"></app-table>
 </template>
 
 <script>
   import MyTable from './components/Table.vue'
   import MyForma from './components/Forma.vue'
 
+  import { usePostsStore } from './stores/PostsStore'
+
+  import { mapStores } from 'pinia'
+
+
   export default {
     name: 'App',
     components: {
       'app-table': MyTable,
       'app-form': MyForma,
-    }
+    },
+    mounted () {
+      this.postsStoreStore.getData()
+    },
+    computed: {
+      ...mapStores(usePostsStore)
+    },
   }
-</script>
-
-<script setup>
-  import { usePostsStore } from './stores/PostsStore'
-
-  const postsStore = usePostsStore()
-  postsStore.getData()
 </script>
 
 <style>

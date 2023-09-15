@@ -21,6 +21,9 @@
 </template>
 
 <script>
+    import { usePostsStore } from './../stores/PostsStore'
+    import { mapStores } from 'pinia'
+
     export default {
         name: 'SingleRow',
         props: ['info'],
@@ -32,7 +35,6 @@
                 name: '',
                 email: '',
                 text: '',
-                postsStore: usePostsStore()
             }
         },
         methods: {
@@ -40,8 +42,8 @@
                 this.changing = !this.changing
                 this.disable = !this.changing
             },
-            async save () {  
-                const ans = this.postsStore.savePost({
+            async save () { 
+                const ans = this.postsStoreStore.savePost({
                     id: this.id,
                     name: this.name,
                     email: this.email,
@@ -53,7 +55,7 @@
                 }
             },
             async remove () {
-                this.postsStore.removePost(this.id)
+                this.postsStoreStore.removePost(this.id)
             },
         },
         mounted () {
@@ -61,12 +63,11 @@
             this.email = this.info.email
             this.text = this.info.text
             this.id = this.info.id
+        },
+        computed: {
+            ...mapStores(usePostsStore)
         }
     }
-</script>
-
-<script setup>
-    import { usePostsStore } from './../stores/PostsStore'
 </script>
 
 <style>

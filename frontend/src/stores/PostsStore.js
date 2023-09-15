@@ -74,7 +74,8 @@ export const usePostsStore = defineStore ('postsStore', {
                     }
                 })
                 .catch(e => {
-                    return e
+                    console.log(e.message)
+                    return false
                 })
         }
     }
